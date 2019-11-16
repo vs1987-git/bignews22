@@ -58,7 +58,7 @@
       </div>
     </div>
   </div>
-
+<!-- <script src="./libs/http.js"></script>  -->
   <script>
     //登录需求
     $(function () {
@@ -79,7 +79,10 @@
         //4.发送ajax请求
         $.ajax({
           type: 'post',
-          url: 'http://localhost:8080/api/v1/admin/user/login',
+          //导入http.js后不用写死地址,而是获取
+          url: 'http://localhost:8080/api/v1/admin/user/login', 
+          //接口地址从BigNew中获取
+          // url: window.BigNew.user_login,
           data: {
             username: username,
             password: password
@@ -90,6 +93,9 @@
             $('#myModal').modal()
             
             if (backData.code == 200) {
+              //账号密码正确会返回一个token,把他存在本地
+              window.localStorage.setItem('token',backData.token)
+
               //hidden.bs.modal	此事件在模态框被隐藏（并且同时在 CSS 过渡效果完成）之后被触发。
               $('#myModal').on('hidden.bs.modal', function (e) {
                 window.location.href = './index.html'
